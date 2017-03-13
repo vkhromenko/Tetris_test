@@ -52,10 +52,17 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="IShape.cs" />
+    <Compile Include="JShape.cs" />
     <Compile Include="LShape.cs" />
+    <Compile Include="OShape.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shape.cs" />
+    <Compile Include="ShapesFactory.cs" />
+    <Compile Include="SShape.cs" />
+    <Compile Include="TShape.cs" />
+    <Compile Include="ZShape.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

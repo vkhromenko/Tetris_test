@@ -29,8 +29,11 @@
         private void InitializeComponent()
         {
             this.mainArea = new System.Windows.Forms.SplitContainer();
+            this.shapePicture = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.mainArea)).BeginInit();
+            this.mainArea.Panel1.SuspendLayout();
             this.mainArea.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.shapePicture)).BeginInit();
             this.SuspendLayout();
             // 
             // mainArea
@@ -41,10 +44,19 @@
             // 
             // mainArea.Panel1
             // 
-            this.mainArea.Panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer1_Panel1_Paint);
+            this.mainArea.Panel1.Controls.Add(this.shapePicture);
             this.mainArea.Size = new System.Drawing.Size(630, 653);
             this.mainArea.SplitterDistance = 419;
             this.mainArea.TabIndex = 0;
+            // 
+            // shapePicture
+            // 
+            this.shapePicture.Location = new System.Drawing.Point(0, 0);
+            this.shapePicture.Name = "shapePicture";
+            this.shapePicture.Size = new System.Drawing.Size(417, 653);
+            this.shapePicture.TabIndex = 0;
+            this.shapePicture.TabStop = false;
+            this.shapePicture.Paint += new System.Windows.Forms.PaintEventHandler(this.shapePicture_Paint);
             // 
             // TetrisGame
             // 
@@ -54,8 +66,10 @@
             this.Controls.Add(this.mainArea);
             this.Name = "TetrisGame";
             this.Text = "Form1";
+            this.mainArea.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.mainArea)).EndInit();
             this.mainArea.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.shapePicture)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -63,6 +77,7 @@
         #endregion
 
         private System.Windows.Forms.SplitContainer mainArea;
+        private System.Windows.Forms.PictureBox shapePicture;
     }
 }
 

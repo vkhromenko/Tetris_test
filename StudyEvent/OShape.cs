@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace StudyEvent
 {
-    class LShape : Shape
+    class OShape : Shape
     {
-        public LShape(int startX, int startY) : base(startX, startY)
+        public OShape(int startX, int startY) : base(startX, startY)
         {
-            shapeX[1] = startX;
+            shapeX[1] = startX - 1;
             shapeY[1] = startY - 1;
 
             shapeX[2] = startX;
-            shapeY[2] = startY + 1;
+            shapeY[2] = startY - 1;
 
-            shapeX[3] = startX + 1;
-            shapeY[3] = startY + 1;
+            shapeX[3] = startX - 1;
+            shapeY[3] = startY;
         }
     }
 }

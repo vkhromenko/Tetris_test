@@ -24,18 +24,38 @@ namespace StudyEvent
         CounterclockWise,
     }
 
+    //public enum ShapeColor
+    //{
+    //    Green,
+    //    Red,
+    //    Blue,
+    //    Gray,
+    //    Yellow,
+    //    Brown,
+    //}
+
     public abstract class Shape
     {
         internal int[] shapeX = new int[4];
         internal int[] shapeY = new int[4];
+        internal Brush[] brushColor = new SolidBrush[]{ new SolidBrush(Color.Blue), new SolidBrush(Color.DarkGreen), new SolidBrush(Color.Brown), new SolidBrush(Color.DarkOrange), new SolidBrush(Color.DarkSlateBlue), new SolidBrush(Color.DimGray) };
+        internal Brush brush;
+        private Random rand = new Random();
 
         public Shape(int startX, int startY)
         {
             shapeX[0] = startX;
             shapeY[0] = startY;
+            brush = brushColor[rand.Next(6)];
         }
 
-        public abstract void PaintShape();
+        public virtual void PaintShape(Graphics g)
+        {
+            for (int i = 0; i < shapeX.Length; i++)
+            {
+                TetrisGame.mainGraphics.FillRectangle(brush, shapeX[i] * TetrisGame.SCALE + 1, shapeY[i] * TetrisGame.SCALE + 1, TetrisGame.SCALE - 1, TetrisGame.SCALE - 1);
+            }
+        }
 
         public void Rotate(Direction direction = Direction.Сlockwise)
         {
@@ -55,7 +75,7 @@ namespace StudyEvent
                     shapeY[i]--;
                 }
             }
-            this.PaintShape();
+            this.PaintShape(TetrisGame.mainGraphics);
         }
 
         public void Accelerate()
@@ -69,7 +89,7 @@ namespace StudyEvent
             {
                 shapeY[i]++;
             }
-            this.PaintShape();
+            this.PaintShape(TetrisGame.mainGraphics);
         }
 
         public void MoveLeft()
@@ -87,7 +107,15 @@ namespace StudyEvent
                 shapeX[i]++;
             }
         }
+
+        public override string ToString()
+        {
+            return string.Format("[X = {}, Y = {}]", shapeX[0], shapeY[0]);
+        }
+
+        public override int GetHashCode()
+        {
+            return this.ToString().GetHashCode();
+        }
     }
-
-
 }
