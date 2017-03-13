@@ -1,0 +1,9 @@
+C:\Users\vkhromenko\Documents\Visual Studio 2015\Projects\Logon_project\StudyEvent\StudyEvent\bin\Debug\StudyEvent.exe.config
+C:\Users\vkhromenko\Documents\Visual Studio 2015\Projects\Logon_project\StudyEvent\StudyEvent\bin\Debug\StudyEvent.exe
+C:\Users\vkhromenko\Documents\Visual Studio 2015\Projects\Logon_project\StudyEvent\StudyEvent\bin\Debug\StudyEvent.pdb
+C:\Users\vkhromenko\Documents\Visual Studio 2015\Projects\Logon_project\StudyEvent\StudyEvent\obj\Debug\StudyEvent.csprojResolveAssemblyReference.cache
+C:\Users\vkhromenko\Documents\Visual Studio 2015\Projects\Logon_project\StudyEvent\StudyEvent\obj\Debug\StudyEvent.TetrisGame.resources
+C:\Users\vkhromenko\Documents\Visual Studio 2015\Projects\Logon_project\StudyEvent\StudyEvent\obj\Debug\StudyEvent.Properties.Resources.resources
+C:\Users\vkhromenko\Documents\Visual Studio 2015\Projects\Logon_project\StudyEvent\StudyEvent\obj\Debug\StudyEvent.csproj.GenerateResource.Cache
+C:\Users\vkhromenko\Documents\Visual Studio 2015\Projects\Logon_project\StudyEvent\StudyEvent\obj\Debug\StudyEvent.exe
+C:\Users\vkhromenko\Documents\Visual Studio 2015\Projects\Logon_project\StudyEvent\StudyEvent\obj\Debug\StudyEvent.pdb
