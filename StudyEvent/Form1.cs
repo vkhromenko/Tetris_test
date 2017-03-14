@@ -21,7 +21,7 @@ namespace StudyEvent
         public static int SPEED = 1;
         private ShapesFactory factory;
         private Shape testShape;
-        private Timer timer;
+        private static Timer timer = new Timer();
         private List<Shape> shapeContainer;
         private List<int> coordXContainer;
         private List<int> coordYContainer;
@@ -32,7 +32,6 @@ namespace StudyEvent
         {
             InitializeComponent();
             this.ClientSize = new System.Drawing.Size(WIDTH * SCALE + 225, HEIGHT * SCALE);
-            mainArea.Panel1.ClientSize = new System.Drawing.Size(WIDTH * SCALE, HEIGHT * SCALE);
             shapePicture.ClientSize = new System.Drawing.Size(WIDTH * SCALE, HEIGHT * SCALE);
             mainGraphics = shapePicture.CreateGraphics();
             factory = new ShapesFactory();
@@ -50,42 +49,90 @@ namespace StudyEvent
             }
         }
 
-        private void AdditionInLists(Shape tempShape)
+        private bool AdditionInLists(Shape tempShape)
         {
-            shapeContainer.Add(testShape);
+
             for (int i = 0; i < testShape.shapeX.Length; i++)
             {
-                coordXContainer.Add(testShape.shapeX[i]);
-                coordYContainer.Add(testShape.shapeY[i]);
+                if (testShape.shapeY[i] != 0)
+                {
+                    coordXContainer.Add(testShape.shapeX[i]);
+                    coordYContainer.Add(testShape.shapeY[i]);
+                }
+                else return false;
             }
+            shapeContainer.Add(testShape);
+            return true;
         }
 
+        private bool ContainsCoord(Shape tempShape)
+        {
+            bool flag = false;
+            for (int i = 0; i < coordXContainer.Count; i++)
+            {
+                for (int j = 0; j < tempShape.shapeX.Length; j++)
+                {
+                    if (tempShape.shapeX[j] == coordXContainer[i] && tempShape.shapeY[j] + 1 == coordYContainer[i])
+                    {
+                        flag = true;
+                    }
+                }
+            }
+            return flag;
+        }
         private void shapePicture_Paint(object sender, PaintEventArgs e)
         {
-            timer = new Timer();
-            timer.Interval = 100;
+            timer.Interval = 500;
 
             timer.Tick += Timer_Tick;
             testShape = factory.CreateShape();
 
             //testShape.PaintShape(mainGraphics);
 
-            timer.Start();
+            timer.Enabled = true;
         }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            if (testShape.shapeY[3] == HEIGHT - 1 || testShape.shapeY[0] == HEIGHT - 1)
+            if (testShape.shapeY[3] > HEIGHT || testShape.shapeY[0] > HEIGHT || testShape.shapeY[1] > HEIGHT || testShape.shapeY[2] > HEIGHT)
             {
                 AdditionInLists(testShape);
                 testShape = factory.CreateShape();
             }
 
-            ClearForm();
-            testShape.Move();
+            if (!ContainsCoord(testShape))
+            {
+                ClearForm();
+                testShape.Move();
+            }
+            else
+            {
+                if (AdditionInLists(testShape))
+                    testShape = factory.CreateShape();
+                else
+                {
+                    timer.Stop();
+                    MessageBox.Show("Game Over!");
+                }
+            }
         }
 
+        private void TetrisGame_KeyPress(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Left)
+            {
+                testShape.MoveLeft();
+            }
+            else if(e.KeyCode == Keys.Right)
+            {
+                testShape.MoveRight();
+            }else if (e.KeyCode == Keys.Up)
+            {
+                testShape.Rotate();
+            }else if (e.KeyCode == Keys.Down)
+            {
+                testShape.Accelerate();
+            }
+        }
     }
-
-
 }

@@ -40,13 +40,12 @@ namespace StudyEvent
         internal int[] shapeY = new int[4];
         internal Brush[] brushColor = new SolidBrush[]{ new SolidBrush(Color.Blue), new SolidBrush(Color.DarkGreen), new SolidBrush(Color.Brown), new SolidBrush(Color.DarkOrange), new SolidBrush(Color.DarkSlateBlue), new SolidBrush(Color.DimGray) };
         internal Brush brush;
-        private Random rand = new Random();
 
         public Shape(int startX, int startY)
         {
             shapeX[0] = startX;
             shapeY[0] = startY;
-            brush = brushColor[rand.Next(6)];
+            brush = brushColor[new Random().Next(6)];
         }
 
         public virtual void PaintShape(Graphics g)
@@ -87,7 +86,7 @@ namespace StudyEvent
         {
             for (int i = 0; i < shapeY.Length; i++)
             {
-                shapeY[i]++;
+                shapeY[i] += 1 * TetrisGame.SPEED;
             }
             this.PaintShape(TetrisGame.mainGraphics);
         }
@@ -96,7 +95,8 @@ namespace StudyEvent
         {
             for (int i = 0; i < shapeY.Length; i++)
             {
-                shapeX[i]--;
+                if(shapeX[i] < TetrisGame.WIDTH)
+                    shapeX[i]--;
             }
         }
 
