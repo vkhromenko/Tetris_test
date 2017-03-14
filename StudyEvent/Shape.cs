@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -58,22 +59,11 @@ namespace StudyEvent
 
         public void Rotate(Direction direction = Direction.Сlockwise)
         {
-            if (direction == Direction.Сlockwise)
-            {
-                for (int i = 1; i < shapeX.Length - 1; i++)
-                {
-                    shapeX[i]++;
-                    shapeY[i]++;
-                }
-            }
-            else
-            {
-                for (int i = 1; i < shapeX.Length - 1; i++)
-                {
-                    shapeX[i]--;
-                    shapeY[i]--;
-                }
-            }
+            PointF rotatePoint = new PointF(shapeX[0], shapeY[0]);
+
+            Matrix myMatrix = new Matrix();
+            myMatrix.RotateAt(90, rotatePoint, MatrixOrder.Append);
+            TetrisGame.mainGraphics.Transform = myMatrix;
             this.PaintShape(TetrisGame.mainGraphics);
         }
 
@@ -93,18 +83,23 @@ namespace StudyEvent
 
         public void MoveLeft()
         {
-            for (int i = 0; i < shapeY.Length; i++)
+            if (shapeX[0] > 0 && shapeX[1] > 0 && shapeX[2] > 0 && shapeX[3] > 0)
             {
-                if(shapeX[i] < TetrisGame.WIDTH)
+                for (int i = 0; i < shapeY.Length; i++)
+                {
                     shapeX[i]--;
+                }
             }
         }
 
         public void MoveRight()
         {
-            for (int i = 0; i < shapeY.Length; i++)
+            if (shapeX[0] < TetrisGame.WIDTH - 1 && shapeX[1] < TetrisGame.WIDTH - 1 && shapeX[2] < TetrisGame.WIDTH - 1 && shapeX[3] < TetrisGame.WIDTH - 1)
             {
-                shapeX[i]++;
+                for (int i = 0; i < shapeY.Length; i++)
+                {
+                    shapeX[i]++;
+                }
             }
         }
 

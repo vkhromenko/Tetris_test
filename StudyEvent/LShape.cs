@@ -20,5 +20,6 @@ namespace StudyEvent
             shapeX[3] = startX + 1;
             shapeY[3] = startY + 1;
         }
+
     }
 }

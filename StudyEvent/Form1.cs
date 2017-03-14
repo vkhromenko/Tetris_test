@@ -82,7 +82,7 @@ namespace StudyEvent
         }
         private void shapePicture_Paint(object sender, PaintEventArgs e)
         {
-            timer.Interval = 500;
+            timer.Interval = 100;
 
             timer.Tick += Timer_Tick;
             testShape = factory.CreateShape();
@@ -94,7 +94,7 @@ namespace StudyEvent
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            if (testShape.shapeY[3] > HEIGHT || testShape.shapeY[0] > HEIGHT || testShape.shapeY[1] > HEIGHT || testShape.shapeY[2] > HEIGHT)
+            if (testShape.shapeY[3] == HEIGHT - 1  || testShape.shapeY[0] == HEIGHT - 1 || testShape.shapeY[1] == HEIGHT - 1 || testShape.shapeY[2] == HEIGHT - 1)
             {
                 AdditionInLists(testShape);
                 testShape = factory.CreateShape();
@@ -129,10 +129,11 @@ namespace StudyEvent
             }else if (e.KeyCode == Keys.Up)
             {
                 testShape.Rotate();
-            }else if (e.KeyCode == Keys.Down)
-            {
-                testShape.Accelerate();
             }
+            //else if (e.KeyCode == Keys.Down)
+            //{
+            //    testShape.Accelerate();
+            //}
         }
     }
 }
