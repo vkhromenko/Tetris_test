@@ -75,8 +75,8 @@ namespace StudyEvent
                     if (shapeX[0] == shapeX[i])
                         count++;
 
-                }
-                   // if (count)
+                } 
+                if ((shapeX[0] > 0 && shapeX[1] > 0 && shapeX[2] > 0 && shapeX[3] > 0) && count >= 2)
                 {
 
                     for (int i = 1; i < shapeX.Length; i++)
