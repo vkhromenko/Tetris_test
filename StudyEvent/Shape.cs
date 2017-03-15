@@ -21,8 +21,9 @@ namespace StudyEvent
 
     public enum Direction
     {
-        Сlockwise,
-        CounterclockWise,
+        Right = 1,
+        Left = -1,
+        Down = 2,
     }
 
     //public enum ShapeColor
@@ -57,19 +58,37 @@ namespace StudyEvent
             }
         }
 
-        public void Rotate(Direction direction = Direction.Сlockwise)
+        public void Rotate()
         {
-            PointF rotatePoint = new PointF(shapeX[0], shapeY[0]);
+            if (this.GetType().Name != "OShape")
+            {
+                int count = 0;
 
-            Matrix myMatrix = new Matrix();
-            myMatrix.RotateAt(90, rotatePoint, MatrixOrder.Append);
-            TetrisGame.mainGraphics.Transform = myMatrix;
-            this.PaintShape(TetrisGame.mainGraphics);
-        }
+                int[] shapeXTemp = new int[4];
+                int[] shapeYTemp = new int[4];
 
-        public void Accelerate()
-        {
-            TetrisGame.SPEED = 3;
+                shapeX.CopyTo(shapeXTemp, 0);
+                shapeY.CopyTo(shapeYTemp, 0);
+
+                for (int i = 0; i < shapeX.Length; i++)
+                {
+                    if (shapeX[0] == shapeX[i])
+                        count++;
+
+                }
+                   // if (count)
+                {
+
+                    for (int i = 1; i < shapeX.Length; i++)
+                    {
+                        shapeX[i] = shapeXTemp[0] - (shapeYTemp[i] - shapeYTemp[0]);
+                        shapeY[i] = shapeYTemp[0] + (shapeXTemp[i] - shapeXTemp[0]);
+                    }
+
+                    this.PaintShape(TetrisGame.mainGraphics);
+                    TetrisGame.ClearForm();
+                }
+            }
         }
 
         public void Move()

@@ -10,14 +10,14 @@ namespace StudyEvent
     {
         public TShape(int startX, int startY) : base(startX, startY)
         {
-            shapeX[1] = startX - 1;
+            shapeX[1] = startX;
             shapeY[1] = startY - 1;
 
-            shapeX[2] = startX - 1;
-            shapeY[2] = startY;
+            shapeX[2] = startX;
+            shapeY[2] = startY + 1;
 
-            shapeX[3] = startX - 1;
-            shapeY[3] = startY + 1;
+            shapeX[3] = startX + 1;
+            shapeY[3] = startY;
         }
     }
 }
