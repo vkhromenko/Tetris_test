@@ -33,7 +33,9 @@
             this.lbScore = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.lbStep = new System.Windows.Forms.Label();
+            this.pbPreview = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.shapePicture)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPreview)).BeginInit();
             this.SuspendLayout();
             // 
             // shapePicture
@@ -83,11 +85,20 @@
             this.lbStep.Size = new System.Drawing.Size(0, 25);
             this.lbStep.TabIndex = 2;
             // 
+            // pbPreview
+            // 
+            this.pbPreview.Location = new System.Drawing.Point(465, 109);
+            this.pbPreview.Name = "pbPreview";
+            this.pbPreview.Size = new System.Drawing.Size(107, 152);
+            this.pbPreview.TabIndex = 3;
+            this.pbPreview.TabStop = false;
+            // 
             // TetrisGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(614, 614);
+            this.Controls.Add(this.pbPreview);
             this.Controls.Add(this.lbStep);
             this.Controls.Add(this.lbScore);
             this.Controls.Add(this.label2);
@@ -98,6 +109,7 @@
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TetrisGame_KeyPress);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TetrisGame_KeyUp);
             ((System.ComponentModel.ISupportInitialize)(this.shapePicture)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPreview)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -110,6 +122,7 @@
         private System.Windows.Forms.Label lbScore;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lbStep;
+        private System.Windows.Forms.PictureBox pbPreview;
     }
 }
 

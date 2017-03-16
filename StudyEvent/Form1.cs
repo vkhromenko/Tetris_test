@@ -20,7 +20,10 @@ namespace StudyEvent
         public static int SCALE = 30;
         public static int SPEED = 1;
         private ShapesFactory factory;
-        private Shape testShape;
+
+        private static Shape testShape;
+        private static Shape prevShape;
+
         private static Timer timer = new Timer();
         private static List<Shape> shapeContainer;
         private List<int> coordXContainer;
@@ -30,12 +33,15 @@ namespace StudyEvent
 
 
         public static Graphics mainGraphics;
+        public static Graphics prevGraphics;
 
         public TetrisGame()
         {
             InitializeComponent();
             this.ClientSize = new System.Drawing.Size(WIDTH * SCALE + 225, HEIGHT * SCALE);
             shapePicture.ClientSize = new System.Drawing.Size(WIDTH * SCALE, HEIGHT * SCALE);
+            pbPreview.ClientSize = new Size(3 * SCALE, 4 * SCALE);
+            prevGraphics = pbPreview.CreateGraphics();
             mainGraphics = shapePicture.CreateGraphics();
             factory = new ShapesFactory();
             coordXContainer = new List<int>();
@@ -46,24 +52,53 @@ namespace StudyEvent
         public static void ClearForm()
         {
             mainGraphics.Clear(Color.LightGray);
+
             foreach (Shape shape in shapeContainer)
             {
                 shape.PaintShape(mainGraphics);
+            }
+            testShape.PaintShape(mainGraphics);
+        }
+
+        public static void ClearForm(Graphics preGraphics)
+        {
+            preGraphics.Clear(Color.LightGray);
+            Shape tmp = prevShape;
+
+            if (tmp != null)
+            {
+                for (int j = 0; j < prevShape.shapeY.Length; j++)
+                {
+                    tmp.shapeY[j] += 4;
+                    tmp.shapeX[j] -= 6;
+                }
+                tmp.PaintShape(preGraphics);
+                for (int j = 0; j < prevShape.shapeY.Length; j++)
+                {
+                    tmp.shapeY[j] -= 4;
+                    tmp.shapeX[j] += 6;
+                }
             }
         }
 
         private bool AdditionInLists(Shape tempShape)
         {
-            for (int i = 0; i < testShape.shapeX.Length; i++)
+            for (int i = 0; i < tempShape.shapeX.Length; i++)
             {
-                if (testShape.shapeY[i] != 0)
+                if (tempShape.shapeY[i] == 0)
                 {
-                    coordXContainer.Add(testShape.shapeX[i]);
-                    coordYContainer.Add(testShape.shapeY[i]);
+                    timer.Stop();
+                    MessageBox.Show("Game Over!");
+                    break;
+                }
+                if (tempShape.shapeY[i] != 0)
+                {
+                    coordXContainer.Add(tempShape.shapeX[i]);
+                    coordYContainer.Add(tempShape.shapeY[i]);
                 }
                 else return false;
             }
-            shapeContainer.Add(testShape);
+            shapeContainer.Add(tempShape);
             return true;
         }
 
@@ -74,6 +109,7 @@ namespace StudyEvent
             {
                 for (int j = 0; j < tempShape.shapeX.Length; j++)
                 {
+                    
                     if (tempShape.shapeX[j] == coordXContainer[i] && tempShape.shapeY[j] + 1 == coordYContainer[i])
                     {
                         flag = true;
@@ -106,11 +142,12 @@ namespace StudyEvent
         }
         private void shapePicture_Paint(object sender, PaintEventArgs e)
         {
-            timer.Interval = 100;
+            timer.Interval = 50;
 
             timer.Tick += Timer_Tick;
             testShape = factory.CreateShape();
-
+            prevShape = factory.CreateShape();
+            ClearForm(prevGraphics);
             //testShape.PaintShape(mainGraphics);
 
             timer.Enabled = true;
@@ -118,32 +155,31 @@ namespace StudyEvent
 
         private void Timer_Tick(object sender, EventArgs e)
         {
+            bool isMoving = false;
             lbStep.Text = step.ToString();
-            if (testShape.shapeY[3] == HEIGHT - 1  || testShape.shapeY[0] == HEIGHT - 1 || testShape.shapeY[1] == HEIGHT - 1 || testShape.shapeY[2] == HEIGHT - 1)
-            {
-                AdditionInLists(testShape);
-                testShape = factory.CreateShape();
-                step++;
-            }
-
+        
             if (!ContainsCoord(testShape))
             {
-                ClearForm();
-                testShape.Move();
+                isMoving = testShape.Move();
+                if (!isMoving)
+                {
+                    AddAndCreate();
+                }
             }
             else
             {
-                if (AdditionInLists(testShape))
-                {
-                    testShape = factory.CreateShape();
-                    step++;
-                }
-                else
-                {
-                    timer.Stop();
-                    MessageBox.Show("Game Over!");
-                }
+                AddAndCreate();
             }
+            ClearForm();
+        }
+
+        private void AddAndCreate()
+        {
+            AdditionInLists(testShape);
+            testShape = prevShape;
+            prevShape = factory.CreateShape();
+            ClearForm(prevGraphics);
+            step++;
         }
 
         private void TetrisGame_KeyPress(object sender, KeyEventArgs e)

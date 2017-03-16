@@ -54,7 +54,7 @@ namespace StudyEvent
         {
             for (int i = 0; i < shapeX.Length; i++)
             {
-                TetrisGame.mainGraphics.FillRectangle(brush, shapeX[i] * TetrisGame.SCALE + 1, shapeY[i] * TetrisGame.SCALE + 1, TetrisGame.SCALE - 1, TetrisGame.SCALE - 1);
+                g.FillRectangle(brush, shapeX[i] * TetrisGame.SCALE + 1, shapeY[i] * TetrisGame.SCALE + 1, TetrisGame.SCALE - 1, TetrisGame.SCALE - 1);
             }
         }
 
@@ -62,42 +62,65 @@ namespace StudyEvent
         {
             if (this.GetType().Name != "OShape")
             {
-                int count = 0;
-
+                bool flag = true; //флаг проверки на границу поля
                 int[] shapeXTemp = new int[4];
                 int[] shapeYTemp = new int[4];
 
                 shapeX.CopyTo(shapeXTemp, 0);
                 shapeY.CopyTo(shapeYTemp, 0);
 
-                for (int i = 0; i < shapeX.Length; i++)
-                {
-                    if (shapeX[0] == shapeX[i])
-                        count++;
 
-                } 
-                if ((shapeX[0] > 0 && shapeX[1] > 0 && shapeX[2] > 0 && shapeX[3] > 0) && count >= 2)
+                for (int i = 1; i < shapeX.Length; i++)
                 {
+                    shapeXTemp[i] = shapeX[0] - (shapeY[i] - shapeY[0]);
 
-                    for (int i = 1; i < shapeX.Length; i++)
+                    if (shapeXTemp[i] < 0 || shapeXTemp[i] >= TetrisGame.WIDTH)
                     {
-                        shapeX[i] = shapeXTemp[0] - (shapeYTemp[i] - shapeYTemp[0]);
-                        shapeY[i] = shapeYTemp[0] + (shapeXTemp[i] - shapeXTemp[0]);
+                        flag = false;
+                        break;
                     }
+                    shapeYTemp[i] = shapeY[0] + (shapeX[i] - shapeX[0]);
+                }
 
+                if (flag)
+                {
+                    shapeX = shapeXTemp;
+                    shapeY = shapeYTemp;
                     this.PaintShape(TetrisGame.mainGraphics);
                     TetrisGame.ClearForm();
                 }
             }
         }
 
-        public void Move()
+        public bool Move()
         {
+            bool flag = false;
+            int tempYY = 0;
+
+            int[] shapeYTemp = new int[4];
+            shapeY.CopyTo(shapeYTemp, 0);
+
             for (int i = 0; i < shapeY.Length; i++)
             {
-                shapeY[i] += 1 * TetrisGame.SPEED;
+                tempYY = shapeYTemp[i];
+                if (!((tempYY += 1 * TetrisGame.SPEED) >= TetrisGame.HEIGHT))
+                {
+                    shapeYTemp[i] += 1 * TetrisGame.SPEED; 
+                }
+
+                else
+                {
+                    flag = false;
+                    break;
+                }
+                flag = true;
             }
-            this.PaintShape(TetrisGame.mainGraphics);
+            if (flag)
+            {
+                shapeY = shapeYTemp;
+                this.PaintShape(TetrisGame.mainGraphics);
+            }
+            return flag;
         }
 
         public void MoveLeft()
