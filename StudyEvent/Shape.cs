@@ -42,12 +42,13 @@ namespace StudyEvent
         internal int[] shapeY = new int[4];
         internal Brush[] brushColor = new SolidBrush[]{ new SolidBrush(Color.Blue), new SolidBrush(Color.DarkGreen), new SolidBrush(Color.Brown), new SolidBrush(Color.DarkOrange), new SolidBrush(Color.DarkSlateBlue), new SolidBrush(Color.DimGray) };
         internal Brush brush;
-
+        private Random rand;
         public Shape(int startX, int startY)
         {
             shapeX[0] = startX;
             shapeY[0] = startY;
-            brush = brushColor[new Random().Next(6)];
+            rand = new Random();
+            brush = brushColor[rand.Next(6)];
         }
 
         public virtual void PaintShape(Graphics g)
