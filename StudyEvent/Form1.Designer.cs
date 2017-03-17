@@ -45,7 +45,7 @@
             this.shapePicture.Size = new System.Drawing.Size(435, 653);
             this.shapePicture.TabIndex = 0;
             this.shapePicture.TabStop = false;
-            this.shapePicture.Paint += new System.Windows.Forms.PaintEventHandler(this.shapePicture_Paint);
+            //this.shapePicture.Paint += new System.Windows.Forms.PaintEventHandler(this.shapePicture_Paint);
             // 
             // label1
             // 

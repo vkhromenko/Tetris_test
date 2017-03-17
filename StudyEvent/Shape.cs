@@ -51,11 +51,12 @@ namespace StudyEvent
             brush = brushColor[rand.Next(6)];
         }
 
-        public virtual void PaintShape(Graphics g)
+        public virtual void PaintShape(BufferedGraphics g)
         {
             for (int i = 0; i < shapeX.Length; i++)
             {
-                g.FillRectangle(brush, shapeX[i] * TetrisGame.SCALE + 1, shapeY[i] * TetrisGame.SCALE + 1, TetrisGame.SCALE - 1, TetrisGame.SCALE - 1);
+                g.Graphics.FillRectangle(brush, shapeX[i] * TetrisGame.SCALE + 1, shapeY[i] * TetrisGame.SCALE + 1, TetrisGame.SCALE - 1, TetrisGame.SCALE - 1);
+                //g.Render();
             }
         }
 
@@ -87,7 +88,7 @@ namespace StudyEvent
                 {
                     shapeX = shapeXTemp;
                     shapeY = shapeYTemp;
-                    this.PaintShape(TetrisGame.mainGraphics);
+                    this.PaintShape(TetrisGame.bufferedGraphics);
                     TetrisGame.ClearForm();
                 }
             }
@@ -119,7 +120,7 @@ namespace StudyEvent
             if (flag)
             {
                 shapeY = shapeYTemp;
-                this.PaintShape(TetrisGame.mainGraphics);
+                this.PaintShape(TetrisGame.bufferedGraphics);
             }
             return flag;
         }

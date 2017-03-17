@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Net.NetworkInformation;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,8 +32,12 @@ namespace StudyEvent
         private int score = 0;
         private int step = 1;
 
-
+        public BufferedGraphicsContext bufferedGraphicsContext;
+        public static BufferedGraphics bufferedGraphics;
         public static Graphics mainGraphics;
+
+        public BufferedGraphicsContext preBufferedGraphicsContext;
+        public static BufferedGraphics preBufferedGraphics;
         public static Graphics prevGraphics;
 
         public TetrisGame()
@@ -43,6 +48,13 @@ namespace StudyEvent
             pbPreview.ClientSize = new Size(3 * SCALE, 4 * SCALE);
             prevGraphics = pbPreview.CreateGraphics();
             mainGraphics = shapePicture.CreateGraphics();
+
+            bufferedGraphicsContext = new BufferedGraphicsContext();
+            bufferedGraphics = bufferedGraphicsContext.Allocate(mainGraphics, new Rectangle(0, 0, shapePicture.Width, shapePicture.Height));
+
+            preBufferedGraphicsContext = new BufferedGraphicsContext();
+            preBufferedGraphics = preBufferedGraphicsContext.Allocate(prevGraphics, new Rectangle(0, 0, pbPreview.Width, pbPreview.Height));
+
             factory = new ShapesFactory();
             coordXContainer = new List<int>();
             coordYContainer = new List<int>();
@@ -51,18 +63,19 @@ namespace StudyEvent
 
         public static void ClearForm()
         {
-            mainGraphics.Clear(Color.LightGray);
+            bufferedGraphics.Graphics.Clear(Color.LightGray);
 
             foreach (Shape shape in shapeContainer)
             {
-                shape.PaintShape(mainGraphics);
+                shape.PaintShape(bufferedGraphics);
             }
-            testShape.PaintShape(mainGraphics);
+            testShape.PaintShape(bufferedGraphics);
+            bufferedGraphics.Render();
         }
 
-        public static void ClearForm(Graphics preGraphics)
+        public static void ClearForm(BufferedGraphics preBufferedGraphics)
         {
-            preGraphics.Clear(Color.LightGray);
+            preBufferedGraphics.Graphics.Clear(Color.LightGray);
             Shape tmp = prevShape;
 
             if (tmp != null)
@@ -72,7 +85,9 @@ namespace StudyEvent
                     tmp.shapeY[j] += 4;
                     tmp.shapeX[j] -= 6;
                 }
-                tmp.PaintShape(preGraphics);
+
+                tmp.PaintShape(preBufferedGraphics);
+                preBufferedGraphics.Render();
                 for (int j = 0; j < prevShape.shapeY.Length; j++)
                 {
                     tmp.shapeY[j] -= 4;
@@ -109,7 +124,6 @@ namespace StudyEvent
             {
                 for (int j = 0; j < tempShape.shapeX.Length; j++)
                 {
-                    
                     if (tempShape.shapeX[j] == coordXContainer[i] && tempShape.shapeY[j] + 1 == coordYContainer[i])
                     {
                         flag = true;
@@ -140,19 +154,7 @@ namespace StudyEvent
 
             return flag;
         }
-        private void shapePicture_Paint(object sender, PaintEventArgs e)
-        {
-            timer.Interval = 50;
-
-            timer.Tick += Timer_Tick;
-            testShape = factory.CreateShape();
-            prevShape = factory.CreateShape();
-            ClearForm(prevGraphics);
-            //testShape.PaintShape(mainGraphics);
-
-            timer.Enabled = true;
-        }
-
+        
         private void Timer_Tick(object sender, EventArgs e)
         {
             bool isMoving = false;
@@ -178,7 +180,7 @@ namespace StudyEvent
             AdditionInLists(testShape);
             testShape = prevShape;
             prevShape = factory.CreateShape();
-            ClearForm(prevGraphics);
+            ClearForm(preBufferedGraphics);
             step++;
         }
 
@@ -199,10 +201,28 @@ namespace StudyEvent
                 if (!ContainsCoord(testShape, Direction.Left) && !ContainsCoord(testShape, Direction.Right))
                     testShape.Rotate();
             }
+            else if (e.KeyCode == Keys.Space)
+            {
+                if (timer.Enabled)
+                    timer.Stop();
+                else timer.Start();
+            }
+            else if (e.KeyCode == Keys.Enter)
+            {
+                timer.Interval = 100;
+
+                timer.Tick += Timer_Tick;
+                testShape = factory.CreateShape();
+                prevShape = factory.CreateShape();
+                ClearForm(preBufferedGraphics);
+            }
+            //testShape.PaintShape(mainGraphics);
+
+            timer.Enabled = true;
             //else if (e.KeyCode == Keys.Down)
             //{
             //    if (!ContainsCoord(testShape, Direction.Down))
-            //        testShape.Accelerate();
+            //        SPEED = 2;
             //}
         }
 
