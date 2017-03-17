@@ -215,10 +215,9 @@ namespace StudyEvent
                 testShape = factory.CreateShape();
                 prevShape = factory.CreateShape();
                 ClearForm(preBufferedGraphics);
-            }
-            //testShape.PaintShape(mainGraphics);
 
-            timer.Enabled = true;
+                timer.Enabled = true;
+            }
             //else if (e.KeyCode == Keys.Down)
             //{
             //    if (!ContainsCoord(testShape, Direction.Down))
