@@ -9,12 +9,9 @@ namespace StudyEvent
 {
     class ShapesFactory
     {
-        Random rand;
-
         public Shape CreateShape()
         {
-            rand = new Random();
-            switch (rand.Next(8))
+            switch (new Random().Next(8))
             {
                 case (int)ShapeKind.LShape:
                     return new LShape(7, -2);

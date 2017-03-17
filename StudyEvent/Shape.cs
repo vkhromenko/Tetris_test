@@ -47,8 +47,7 @@ namespace StudyEvent
         {
             shapeX[0] = startX;
             shapeY[0] = startY;
-            rand = new Random();
-            brush = brushColor[rand.Next(6)];
+            brush = brushColor[new Random().Next(6)];
         }
 
         public virtual void PaintShape(BufferedGraphics g)

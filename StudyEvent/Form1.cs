@@ -63,7 +63,8 @@ namespace StudyEvent
 
         public static void ClearForm()
         {
-            bufferedGraphics.Graphics.Clear(Color.LightGray);
+            bufferedGraphics.Graphics.Clear(Color.Ivory);
+            PrintGrid.PrintGridFromForm(bufferedGraphics);
 
             foreach (Shape shape in shapeContainer)
             {
@@ -157,6 +158,7 @@ namespace StudyEvent
         
         private void Timer_Tick(object sender, EventArgs e)
         {
+            ClearForm();
             bool isMoving = false;
             lbStep.Text = step.ToString();
         
@@ -172,7 +174,6 @@ namespace StudyEvent
             {
                 AddAndCreate();
             }
-            ClearForm();
         }
 
         private void AddAndCreate()
