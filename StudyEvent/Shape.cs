@@ -42,12 +42,12 @@ namespace StudyEvent
         internal int[] shapeY = new int[4];
         internal Brush[] brushColor = new SolidBrush[]{ new SolidBrush(Color.Blue), new SolidBrush(Color.DarkGreen), new SolidBrush(Color.Brown), new SolidBrush(Color.DarkOrange), new SolidBrush(Color.DarkSlateBlue), new SolidBrush(Color.DimGray) };
         internal Brush brush;
-        private Random rand;
+        //private Random rand;
         public Shape(int startX, int startY)
         {
             shapeX[0] = startX;
             shapeY[0] = startY;
-            brush = brushColor[new Random().Next(6)];
+            brush = brushColor[new Random(DateTime.Now.Millisecond).Next(6)];
         }
 
         public virtual void PaintShape(BufferedGraphics g)
@@ -55,7 +55,6 @@ namespace StudyEvent
             for (int i = 0; i < shapeX.Length; i++)
             {
                 g.Graphics.FillRectangle(brush, shapeX[i] * TetrisGame.SCALE + 1, shapeY[i] * TetrisGame.SCALE + 1, TetrisGame.SCALE - 1, TetrisGame.SCALE - 1);
-                //g.Render();
             }
         }
 

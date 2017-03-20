@@ -11,7 +11,7 @@ namespace StudyEvent
     {
         public Shape CreateShape()
         {
-            switch (new Random().Next(8))
+            switch (new Random(DateTime.Now.Millisecond).Next(8))
             {
                 case (int)ShapeKind.LShape:
                     return new LShape(7, -2);
